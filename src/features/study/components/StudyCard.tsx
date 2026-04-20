@@ -36,25 +36,27 @@ export function StudyCard({ card, status, showBack, onFlip, onNext, onPrevious }
       onTouchEnd={swipe.onTouchEnd}
       onTouchCancel={swipe.onTouchCancel}
     >
-      <div className="card-meta">
-        <span>{card.category}</span>
-        <span>{card.lens}</span>
-        <span>{card.type}</span>
-        <span className={`status ${status}`}>{status}</span>
-        {isPriorityCard(card.id) ? <span className="status priority">priority</span> : null}
+      <div className="card-head">
+        <div className="card-meta">
+          <span>{card.category}</span>
+          <span>{card.lens}</span>
+          <span>{card.type}</span>
+          <span className={`status ${status}`}>{status}</span>
+          {isPriorityCard(card.id) ? <span className="status priority">priority</span> : null}
+        </div>
+
+        {card.tags.length ? (
+          <div className="card-tags">
+            {card.tags.map((tag) => (
+              <span key={tag} className="tag-chip">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </div>
 
-      {card.tags.length ? (
-        <div className="card-tags">
-          {card.tags.map((tag) => (
-            <span key={tag} className="tag-chip">
-              #{tag}
-            </span>
-          ))}
-        </div>
-      ) : null}
-
-      <div className="card-content">
+      <div className={`card-content ${showBack ? 'answer-side' : 'question-side'}`}>
         {!showBack ? (
           <>
             <p className="eyebrow">Question</p>
