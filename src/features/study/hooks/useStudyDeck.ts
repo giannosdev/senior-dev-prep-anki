@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { allJdItems } from '../../cards/data/jd-items'
 import { isPriorityCard } from '../../cards/data/priority-card-ids'
 import { unique } from '../../../shared/utils/arrays'
+import { normalizeTag } from '../../../shared/utils/text'
 import { useLocalProgress } from './useLocalProgress'
 import { filterStudyIndexes, getCardStatus } from '../utils/filtering'
 import { shuffleIndexes } from '../utils/shuffling'
@@ -12,6 +13,7 @@ export function useStudyDeck(cards: Card[]) {
   const { progress, setStatus, reset } = useLocalProgress()
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
+  const [tagFilter, setTagFilter] = useState('All')
   const [lens, setLens] = useState('All')
   const [questionType, setQuestionType] = useState('All')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('All')
@@ -22,6 +24,13 @@ export function useStudyDeck(cards: Card[]) {
   const [studyOrder, setStudyOrder] = useState(() => cards.map((_, cardIndex) => cardIndex))
 
   const categories = useMemo(() => ['All', ...unique(cards.map((card) => card.category))], [cards])
+  const tags = useMemo(() => {
+    const allTags = unique(cards.flatMap((card) => card.tags.map((tag) => normalizeTag(tag))))
+      .filter(Boolean)
+      .sort((left, right) => left.localeCompare(right))
+
+    return ['All', ...allTags]
+  }, [cards])
   const lenses = useMemo(() => ['All', ...unique(cards.map((card) => card.lens))], [cards])
   const questionTypes = useMemo(() => ['All', ...unique(cards.map((card) => card.type))], [cards])
   const jdItems = useMemo(() => ['All', ...allJdItems], [])
@@ -35,6 +44,7 @@ export function useStudyDeck(cards: Card[]) {
       filters: {
         query,
         category,
+        tagFilter,
         lens,
         questionType,
         statusFilter,
@@ -42,12 +52,12 @@ export function useStudyDeck(cards: Card[]) {
         priorityOnly,
       },
     })
-  }, [cards, studyOrder, progress, query, category, lens, questionType, statusFilter, jdFilter, priorityOnly])
+  }, [cards, studyOrder, progress, query, category, tagFilter, lens, questionType, statusFilter, jdFilter, priorityOnly])
 
   useEffect(() => {
     setIndex(0)
     setShowBack(false)
-  }, [query, category, lens, questionType, statusFilter, jdFilter, priorityOnly])
+  }, [query, category, tagFilter, lens, questionType, statusFilter, jdFilter, priorityOnly])
 
   const currentCard = filteredIndexes.length ? cards[filteredIndexes[index % filteredIndexes.length]] : null
   const currentStatus = currentCard ? getCardStatus(currentCard.id, progress) : 'new'
@@ -109,6 +119,7 @@ export function useStudyDeck(cards: Card[]) {
   return {
     query,
     category,
+    tagFilter,
     lens,
     questionType,
     statusFilter,
@@ -120,6 +131,7 @@ export function useStudyDeck(cards: Card[]) {
     currentPosition: filteredIndexes.length ? index + 1 : 0,
     filteredCount: filteredIndexes.length,
     categories,
+    tags,
     lenses,
     questionTypes,
     jdItems,
@@ -128,6 +140,7 @@ export function useStudyDeck(cards: Card[]) {
     priorityCounts,
     setQuery,
     setCategory,
+    setTagFilter,
     setLens,
     setQuestionType,
     setStatusFilter,

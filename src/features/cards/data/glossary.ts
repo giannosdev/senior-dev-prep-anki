@@ -81,4 +81,20 @@ export const glossaryEntries: readonly GlossaryEntry[] = [
     term: 'optimistic updates',
     definition: 'Updating the UI before the server confirms success, then rolling back if the request fails.',
   },
+  {
+    term: 'unions',
+    definition: 'TypeScript types that allow a value to be one of several possible shapes or primitives.',
+  },
+  {
+    term: 'intersections',
+    definition: 'TypeScript types that combine multiple type requirements into one resulting type.',
+  },
+  {
+    term: 'tuples',
+    definition: 'Fixed-length array-like TypeScript types where each position has a known meaning and type.',
+  },
+  {
+    term: 'mapped types',
+    definition: 'TypeScript utilities that transform one type into another by iterating over its keys.',
+  },
 ]

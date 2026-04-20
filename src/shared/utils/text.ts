@@ -13,3 +13,7 @@ export function truncate(text: string, length = 64) {
 export function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
+
+export function normalizeTag(tag: string) {
+  return normalize(tag).trim()
+}

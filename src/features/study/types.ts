@@ -23,6 +23,7 @@ export type StatusFilter = 'All' | CardStatus
 export type StudyFilters = {
   query: string
   category: string
+  tagFilter: string
   lens: string
   questionType: string
   statusFilter: StatusFilter

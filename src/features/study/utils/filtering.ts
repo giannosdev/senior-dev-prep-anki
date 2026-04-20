@@ -1,6 +1,6 @@
 import type { Card, CardStatus, ProgressMap, StudyFilters } from '../types'
 import { isPriorityCard } from '../../cards/data/priority-card-ids'
-import { normalize } from '../../../shared/utils/text'
+import { normalize, normalizeTag } from '../../../shared/utils/text'
 
 export function getCardStatus(cardId: string, progress: ProgressMap): CardStatus {
   return progress[cardId] || 'new'
@@ -28,17 +28,18 @@ export function filterStudyIndexes({
       card.lens,
       card.type,
       card.jdItem,
-      ...card.tags,
+      ...card.tags.map((tag) => normalizeTag(tag)),
     ].join(' '))
 
     const matchesQuery = !q || haystack.includes(q)
     const matchesCategory = filters.category === 'All' || card.category === filters.category
+    const matchesTag = filters.tagFilter === 'All' || card.tags.some((tag) => normalizeTag(tag) === normalizeTag(filters.tagFilter))
     const matchesLens = filters.lens === 'All' || card.lens === filters.lens
     const matchesType = filters.questionType === 'All' || card.type === filters.questionType
     const matchesJd = filters.jdFilter === 'All' || card.jdItem === filters.jdFilter
     const matchesPriority = !filters.priorityOnly || isPriorityCard(card.id)
     const matchesStatus = filters.statusFilter === 'All' || filters.statusFilter === getCardStatus(card.id, progress)
 
-    return matchesQuery && matchesCategory && matchesLens && matchesType && matchesJd && matchesPriority && matchesStatus
+    return matchesQuery && matchesCategory && matchesTag && matchesLens && matchesType && matchesJd && matchesPriority && matchesStatus
   })
 }

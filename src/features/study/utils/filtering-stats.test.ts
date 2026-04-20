@@ -39,6 +39,7 @@ const cards: Card[] = [
 const baseFilters: StudyFilters = {
   query: '',
   category: 'All',
+  tagFilter: 'All',
   lens: 'All',
   questionType: 'All',
   statusFilter: 'All',
@@ -84,6 +85,32 @@ describe('study filtering and stats', () => {
     })
 
     expect(result).toEqual([0])
+  })
+
+  it('matches tags in search and tag filtering', () => {
+    const queryResult = filterStudyIndexes({
+      cards,
+      studyOrder: [0, 1, 2],
+      progress: {},
+      filters: {
+        ...baseFilters,
+        query: 'architecture',
+      },
+    })
+
+    const tagResult = filterStudyIndexes({
+      cards,
+      studyOrder: [0, 1, 2],
+      progress: {},
+      filters: {
+        ...baseFilters,
+        tagFilter: 'react',
+        category: 'React',
+      },
+    })
+
+    expect(queryResult).toEqual([2])
+    expect(tagResult).toEqual([0, 1])
   })
 
   it('computes known, review, and new counts', () => {

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { cards } from '../features/cards/data/cards'
 import { EmptyState } from '../features/study/components/EmptyState'
 import { StudyActions } from '../features/study/components/StudyActions'
@@ -10,6 +11,7 @@ import '../styles/study.css'
 
 export default function App() {
   const deck = useStudyDeck(cards)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useKeyboardShortcuts({
     onFlip: deck.flipCard,
@@ -21,17 +23,21 @@ export default function App() {
 
   return (
     <StudyLayout
+      sidebarOpen={sidebarOpen}
+      onSidebarClose={() => setSidebarOpen(false)}
       sidebar={(
         <StudySidebar
           totalCards={cards.length}
           query={deck.query}
           category={deck.category}
+          tagFilter={deck.tagFilter}
           lens={deck.lens}
           questionType={deck.questionType}
           statusFilter={deck.statusFilter}
           jdFilter={deck.jdFilter}
           priorityOnly={deck.priorityOnly}
           categories={deck.categories}
+          tags={deck.tags}
           lenses={deck.lenses}
           questionTypes={deck.questionTypes}
           jdItems={deck.jdItems}
@@ -40,6 +46,7 @@ export default function App() {
           priorityCards={deck.priorityCards}
           onQueryChange={deck.setQuery}
           onCategoryChange={deck.setCategory}
+          onTagFilterChange={deck.setTagFilter}
           onLensChange={deck.setLens}
           onQuestionTypeChange={deck.setQuestionType}
           onStatusFilterChange={deck.setStatusFilter}
@@ -55,8 +62,24 @@ export default function App() {
           <p className="eyebrow">Filtered deck</p>
           <h2>{deck.filteredCount} cards available</h2>
         </div>
-        <div className="progress-line">
-          {deck.filteredCount ? `${deck.currentPosition} / ${deck.filteredCount}` : '0 / 0'}
+        <div className="topbar-actions">
+          <button
+            type="button"
+            className="ghost sidebar-toggle"
+            aria-controls="study-sidebar"
+            aria-expanded={sidebarOpen}
+            onClick={() => setSidebarOpen(true)}
+          >
+            <span className="sidebar-toggle-icon" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span>Filters</span>
+          </button>
+          <div className="progress-line">
+            {deck.filteredCount ? `${deck.currentPosition} / ${deck.filteredCount}` : '0 / 0'}
+          </div>
         </div>
       </header>
 
@@ -66,6 +89,8 @@ export default function App() {
           status={deck.currentStatus}
           showBack={deck.showBack}
           onFlip={deck.flipCard}
+          onNext={deck.nextCard}
+          onPrevious={deck.prevCard}
         />
       ) : (
         <EmptyState />

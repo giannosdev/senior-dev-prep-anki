@@ -1,4 +1,5 @@
 import type { Card } from '../../study/types'
+import { normalize } from '../../../shared/utils/text'
 
 type ValidationOptions = {
   priorityCardIds?: readonly string[]
@@ -20,6 +21,30 @@ export function validateJdCoverage(cards: Card[], allJdItems: readonly string[])
   if (missingJdItems.length > 0) {
     throw new Error(`Expected at least one card for every JD item. Missing: ${missingJdItems.join(' | ')}`)
   }
+}
+
+export function normalizeCardFront(front: string) {
+  return normalize(front).replace(/[^a-z0-9]+/g, ' ').trim()
+}
+
+export function validateNoNormalizedDuplicateFronts(cards: Card[]) {
+  const seen = new Map<string, string>()
+
+  cards.forEach((card) => {
+    const normalizedFront = normalizeCardFront(card.front)
+
+    if (!normalizedFront) {
+      return
+    }
+
+    const existingId = seen.get(normalizedFront)
+
+    if (existingId) {
+      throw new Error(`Potential duplicate card front: ${existingId} | ${card.id}`)
+    }
+
+    seen.set(normalizedFront, card.id)
+  })
 }
 
 export function validateCards(input: Card[], options: ValidationOptions = {}) {

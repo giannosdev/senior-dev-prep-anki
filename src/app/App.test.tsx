@@ -25,6 +25,8 @@ describe('app smoke tests', () => {
         status="new"
         showBack
         onFlip={() => {}}
+        onNext={() => {}}
+        onPrevious={() => {}}
       />
     )
 
@@ -45,6 +47,8 @@ describe('app smoke tests', () => {
         status="new"
         showBack
         onFlip={() => {}}
+        onNext={() => {}}
+        onPrevious={() => {}}
       />
     )
 

@@ -29,6 +29,7 @@ button {
   display: grid;
   grid-template-columns: 340px minmax(0, 1fr);
   min-height: 100vh;
+  position: relative;
 }
 
 .sidebar {
@@ -39,6 +40,33 @@ button {
   flex-direction: column;
   gap: 18px;
   box-shadow: 12px 0 32px rgba(15, 23, 42, 0.16);
+  overflow-y: auto;
+  z-index: 30;
+}
+
+.sidebar-mobile-bar,
+.sidebar-toggle {
+  display: none;
+}
+
+.sidebar-mobile-bar {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sidebar-close {
+  min-height: 44px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  border-radius: 0;
+  border: none;
+  padding: 0;
+  background: rgba(15, 23, 42, 0.52);
+  z-index: 20;
 }
 
 .brand {
@@ -131,6 +159,7 @@ button {
   background: #dbeafe;
   color: #0f172a;
   font-weight: 800;
+  min-height: 48px;
 }
 
 button:hover {
@@ -225,6 +254,33 @@ kbd {
   gap: 12px;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sidebar-toggle {
+  align-items: center;
+  gap: 10px;
+  min-width: 120px;
+}
+
+.sidebar-toggle-icon {
+  display: inline-grid;
+  gap: 4px;
+}
+
+.sidebar-toggle-icon span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 999px;
+}
+
 .eyebrow {
   color: #64748b;
   text-transform: uppercase;
@@ -257,6 +313,7 @@ kbd {
   grid-template-rows: auto 1fr;
   gap: 24px;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: pan-y;
 }
 
 .card:hover {
@@ -301,6 +358,22 @@ kbd {
 .card-meta .status.priority {
   background: #ede9fe;
   color: #5b21b6;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: -12px;
+}
+
+.tag-chip {
+  background: #eef2ff;
+  color: #3730a3;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .card-content {
@@ -507,6 +580,11 @@ kbd {
   flex-wrap: wrap;
 }
 
+.actions > button,
+.grade-actions > button {
+  min-width: 160px;
+}
+
 .empty-state {
   background: #fff;
   border-radius: 28px;
@@ -528,11 +606,27 @@ kbd {
   }
 
   .sidebar {
-    position: static;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(88vw, 360px);
+    max-width: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    padding: 18px 18px 24px;
+  }
+
+  .app-shell.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar-mobile-bar,
+  .sidebar-toggle {
+    display: flex;
   }
 
   .study-area {
-    padding: 24px;
+    padding: 20px 16px 28px;
+    gap: 18px;
   }
 
   .topbar {
@@ -540,8 +634,65 @@ kbd {
     flex-direction: column;
   }
 
+  .topbar h2 {
+    font-size: 24px;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .card {
-    min-height: 500px;
+    min-height: 420px;
     border-radius: 24px;
+    padding: 20px 18px;
+    gap: 18px;
+  }
+
+  .card-meta,
+  .card-tags {
+    gap: 8px;
+  }
+
+  .card-content h3 {
+    font-size: clamp(24px, 9vw, 36px);
+    line-height: 1.14;
+    letter-spacing: -0.03em;
+  }
+
+  .rich-text {
+    font-size: clamp(16px, 4.8vw, 20px);
+    gap: 12px;
+  }
+
+  .pattern-banner,
+  .pattern-section-card,
+  .pattern-step {
+    border-radius: 14px;
+  }
+
+  .actions,
+  .grade-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions > button,
+  .grade-actions > button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .shortcuts {
+    margin-top: 0;
+  }
+
+  .glossary-tooltip {
+    width: min(260px, 78vw);
   }
 }

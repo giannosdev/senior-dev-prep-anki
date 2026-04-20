@@ -6,12 +6,14 @@ type StudySidebarProps = {
   totalCards: number
   query: string
   category: string
+  tagFilter: string
   lens: string
   questionType: string
   statusFilter: StatusFilter
   jdFilter: string
   priorityOnly: boolean
   categories: string[]
+  tags: string[]
   lenses: string[]
   questionTypes: string[]
   jdItems: string[]
@@ -20,6 +22,7 @@ type StudySidebarProps = {
   priorityCards: Card[]
   onQueryChange: (value: string) => void
   onCategoryChange: (value: string) => void
+  onTagFilterChange: (value: string) => void
   onLensChange: (value: string) => void
   onQuestionTypeChange: (value: string) => void
   onStatusFilterChange: (value: StatusFilter) => void
@@ -37,12 +40,14 @@ export function StudySidebar({
   totalCards,
   query,
   category,
+  tagFilter,
   lens,
   questionType,
   statusFilter,
   jdFilter,
   priorityOnly,
   categories,
+  tags,
   lenses,
   questionTypes,
   jdItems,
@@ -51,6 +56,7 @@ export function StudySidebar({
   priorityCards,
   onQueryChange,
   onCategoryChange,
+  onTagFilterChange,
   onLensChange,
   onQuestionTypeChange,
   onStatusFilterChange,
@@ -74,7 +80,7 @@ export function StudySidebar({
         <input
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          placeholder="React, Docker, tradeoff..."
+          placeholder="React, cookies, debugging..."
         />
       </label>
 
@@ -82,6 +88,15 @@ export function StudySidebar({
         Category
         <select value={category} onChange={(event) => onCategoryChange(selectValue(event))}>
           {categories.map((item) => (
+            <option key={item}>{item}</option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Tag
+        <select value={tagFilter} onChange={(event) => onTagFilterChange(selectValue(event))}>
+          {tags.map((item) => (
             <option key={item}>{item}</option>
           ))}
         </select>

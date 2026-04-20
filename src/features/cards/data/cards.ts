@@ -152,7 +152,7 @@ const rawCards: Card[] = [
       '',
       'Senior upgrade: never stop at “it depends”; say exactly what it depends on.'
     ),
-    ['template', 'tradeoff']
+    ['template', 'tradeoff', 'ownership']
   ),
   makeCard(
     'card-0006',
@@ -241,7 +241,7 @@ const rawCards: Card[] = [
       '',
       'Senior upgrade: make your decisions visible, not just the project summary.'
     ),
-    ['template', 'ownership']
+    ['template', 'ownership', 'behavioral']
   ),
   makeCard(
     'card-0009',
@@ -463,7 +463,7 @@ const rawCards: Card[] = [
       'A rerender does **not** automatically mean the DOM changes.',
       'In practice, I focus on unnecessary expensive rerenders, unstable props, oversized context values, and state placed too high in the tree.'
     ),
-    ['react', 'rerender'],
+    ['react', 'rerender', 'performance', 'state'],
     'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
   ),
   makeCard(
@@ -538,7 +538,7 @@ const rawCards: Card[] = [
       'The key distinction is that dependencies are not an optimization tool; they are part of correctness.',
       'In practice, if the dependency list feels wrong, the effect design is often wrong too.'
     ),
-    ['react', 'useeffect', 'dependencies'],
+    ['react', 'hooks', 'useeffect', 'dependencies'],
     'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
   ),
   makeCard(
@@ -569,7 +569,7 @@ const rawCards: Card[] = [
       'The tradeoff is local simplicity versus shared coordination.',
       'Failure mode: putting state too high creates rerender spread and unclear ownership.'
     ),
-    ['state', 'ownership'],
+    ['react', 'state', 'ownership'],
     'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
   ),
   makeCard(
@@ -584,7 +584,7 @@ const rawCards: Card[] = [
       'The tradeoff is lower setup cost versus scaling pain.',
       'Warning signs: provider sprawl, rerender pain, and business logic spreading into many consumers.'
     ),
-    ['context', 'state'],
+    ['react', 'context', 'state'],
     'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
   ),
   makeCard(
@@ -600,7 +600,7 @@ const rawCards: Card[] = [
       'Use dedicated server-state patterns for fetched data.',
       'Use local or shared client state for UI behavior like open panels, selected tabs, or draft inputs.'
     ),
-    ['api', 'server-state', 'client-state'],
+    ['api', 'server-state', 'client-state', 'state'],
     'Collaborate closely with backend engineers to integrate REST and/or GraphQL APIs'
   ),
   makeCard(
@@ -765,7 +765,7 @@ const rawCards: Card[] = [
       'Layer-based can feel simpler in smaller apps.',
       'The tradeoff is stronger ownership boundaries versus easier early discoverability.'
     ),
-    ['architecture', 'folder-structure'],
+    ['architecture', 'folder-structure', 'frontend-fundamentals'],
     'Participate in architecture discussions and contribute to technical design decisions'
   ),
   makeCard(
@@ -1366,7 +1366,7 @@ const rawCards: Card[] = [
       'Likely follow-up — **What was the hardest architecture tradeoff?**',
       'The hardest part was creating enough shared structure for configurability and reuse without flattening different workflows into one over-generalized model that became harder to reason about.'
     ),
-    ['resume', 'fxpro', 'crm', 'architecture'],
+    ['resume', 'fxpro', 'crm', 'architecture', 'ownership'],
     '7+ years of experience as a Front-End Engineer'
   ),
   makeCard(
@@ -1394,7 +1394,7 @@ const rawCards: Card[] = [
       'Likely follow-up — **How did you avoid overengineering it?**',
       'I kept the abstraction focused on repeated table concerns that were already real, like sorting, filtering, and responsiveness, instead of trying to make one component solve every possible table variation from day one.'
     ),
-    ['resume', 'fxpro', 'tables', 'mui', 'tanstack-table'],
+    ['resume', 'fxpro', 'tables', 'mui', 'tanstack-table', 'performance', 'ownership'],
     'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
   ),
   makeCard(
@@ -1421,7 +1421,7 @@ const rawCards: Card[] = [
       'Likely follow-up — **What was the real performance lesson?**',
       'The biggest lesson was that performance was mostly about structure and ownership: where state lives, how far updates spread, and how much unrelated UI work gets triggered.'
     ),
-    ['resume', 'fxpro', 'real-time', 'solace', 'grpc', 'protobuf'],
+    ['resume', 'fxpro', 'real-time', 'solace', 'grpc', 'protobuf', 'performance', 'debugging'],
     'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
   ),
   makeCard(
@@ -1449,7 +1449,7 @@ const rawCards: Card[] = [
       'Likely follow-up — **What was hardest beyond the happy path?**',
       'The hardest part was making frontend behavior explicit when authentication did not resolve cleanly, so fallback paths and errors behaved predictably instead of turning into vague broken flows.'
     ),
-    ['resume', 'fxpro', 'oidc', 'azure-ad', 'sso'],
+    ['resume', 'fxpro', 'oidc', 'azure-ad', 'sso', 'auth', 'ownership'],
     'Implement CI/CD best practices and support DevSecOps processes'
   ),
   makeCard(
@@ -1801,6 +1801,148 @@ const rawCards: Card[] = [
     ),
     ['system-design', 'rbac', 'collaboration', 'conflicts'],
     'Strong collaboration skills and growth mindset'
+  ),
+  makeCard(
+    'card-0099',
+    'Browser fundamentals: Storage',
+    'Tradeoff judgment',
+    'Comparison',
+    'localStorage vs sessionStorage vs cookies: when would you use each?',
+    joinLines(
+      '`localStorage` persists across browser restarts for the same origin and is readable by any script running on the page.',
+      '`sessionStorage` is scoped to the current tab or session and clears when that tab closes.',
+      'Cookies are different because they are part of HTTP request and response flow and can be sent to the server automatically.',
+      'I use browser storage for non-secret client concerns like UI preferences, lightweight drafts, or per-tab state, and I think about cookies when the backend needs to participate in session handling.',
+      'The real tradeoff is persistence and convenience versus exposure to JavaScript and whether the server needs to read the value too.'
+    ),
+    ['browser', 'storage', 'localstorage', 'sessionstorage', 'cookies', 'frontend-fundamentals'],
+    'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
+  ),
+  makeCard(
+    'card-0100',
+    'Browser fundamentals: Storage',
+    'Execution ownership',
+    'Definition',
+    'What do cookie attributes like HttpOnly, Secure, SameSite, Path, and Domain actually do?',
+    joinLines(
+      '`HttpOnly` means JavaScript cannot read the cookie, which reduces token theft through XSS even though it does not remove XSS risk entirely.',
+      '`Secure` means the cookie should only be sent over HTTPS.',
+      '`SameSite` controls when the cookie is sent on cross-site requests and is one of the main tools for reducing CSRF exposure.',
+      '`Path` and `Domain` control which routes and hosts receive the cookie.',
+      'The senior point is that these attributes shape exposure and request behavior; they are not a magic security switch by themselves.'
+    ),
+    ['browser', 'storage', 'cookies', 'auth', 'security', 'httponly', 'samesite', 'frontend-fundamentals'],
+    'Implement CI/CD best practices and support DevSecOps processes'
+  ),
+  makeCard(
+    'card-0101',
+    'Browser fundamentals: Storage',
+    'Tradeoff judgment',
+    'Decision',
+    'Where should frontend auth or session state live?',
+    joinLines(
+      'For browser-based auth, I prefer a server-managed session or refresh token in an `HttpOnly`, `Secure`, `SameSite` cookie when the backend supports it.',
+      'I keep short-lived UI auth state in memory and avoid putting long-lived sensitive tokens in `localStorage` unless there is a deliberate reason and the XSS tradeoff is explicitly accepted.',
+      '`sessionStorage` can be useful for per-tab transient state, but I still would not treat it as a magic safe place for sensitive session material.',
+      'Session expiry and refresh need explicit frontend behavior: refresh once where appropriate, then route to re-auth instead of retry loops or vague broken screens.',
+      'The goal is lower token exposure and predictable auth failure handling, not just making reloads convenient.'
+    ),
+    ['browser', 'storage', 'cookies', 'auth', 'session', 'security'],
+    'Implement CI/CD best practices and support DevSecOps processes'
+  ),
+  makeCard(
+    'card-0102',
+    'TypeScript: Types and modeling',
+    'Tradeoff judgment',
+    'Comparison',
+    'type vs interface in TypeScript: how do you choose?',
+    joinLines(
+      '`interface` is a clean fit for describing object shapes that need extension or class implementation.',
+      '`type` is more flexible when you need unions, intersections, tuples, mapped types, or aliases that are not just plain object shapes.',
+      'For simple object models, either can work, so I follow team convention instead of arguing dogmatically.',
+      'My rule of thumb is: if composition or unions drive the model, choose `type`; if I am expressing a public object contract that may be extended, `interface` is fine.',
+      'The senior signal is explaining the tradeoff clearly instead of pretending one keyword is universally correct.'
+    ),
+    ['typescript', 'type', 'interface', 'union', 'intersection', 'frontend-fundamentals'],
+    'Develop, enhance, and maintain responsive front-end applications using React.js and modern JavaScript/TypeScript'
+  ),
+  makeCard(
+    'card-0103',
+    'HTTP and APIs: REST and status codes',
+    'LLD strength',
+    'Definition',
+    'How would you describe REST in a frontend-useful way?',
+    joinLines(
+      'REST is an API style where frontend operations interact with resources through predictable URLs, HTTP methods, and status codes.',
+      'At frontend level, what matters most is clear resource boundaries, stateless requests, consistent semantics, and predictable error contracts.',
+      'Good REST does not mean every endpoint is perfectly pure. It means the API is understandable enough that the UI can reason about fetching, mutation, caching, and failure handling cleanly.',
+      'The practical value is simpler integration and clearer contracts between frontend and backend teams.'
+    ),
+    ['api', 'rest', 'http', 'frontend-fundamentals'],
+    'Working knowledge of REST / GraphQL APIs'
+  ),
+  makeCard(
+    'card-0104',
+    'HTTP and APIs: REST and status codes',
+    'Execution ownership',
+    'Definition',
+    'How should a frontend think about HTTP status code families and common codes?',
+    joinLines(
+      '`2xx` means success: `200` usually returns data, `201` means something was created, and `204` means success with no response body.',
+      '`3xx` means redirect behavior. In frontend work I care most when auth or routing flows bounce the user somewhere unexpected.',
+      '`4xx` means the request, credentials, or current business state blocked the action: `400` bad request, `401` unauthenticated, `403` authenticated but not allowed, `404` not found, `409` conflict.',
+      '`5xx` means the server or an upstream dependency failed: `500` generic server error, `502` bad gateway from upstream, `503` temporary unavailability.',
+      'Frontend behavior should match the meaning: validation or guidance for `4xx`, re-auth for `401`, permission messaging for `403`, conflict recovery for `409`, and retry or degraded-state handling for `5xx`.'
+    ),
+    ['api', 'http', 'status-codes', 'rest', 'auth', 'frontend-fundamentals'],
+    'Collaborate closely with backend engineers to integrate REST and/or GraphQL APIs'
+  ),
+  makeCard(
+    'card-0105',
+    'HTTP and APIs: REST and status codes',
+    'Tradeoff judgment',
+    'Comparison',
+    '200 vs 201 vs 204, 401 vs 403, 400 vs 409, and 404 vs 500: what differences matter to the frontend?',
+    joinLines(
+      '`200` means success and a body is usually expected, `201` means a new resource was created, and `204` means success with no body so the frontend should not try to parse JSON.',
+      '`401` means the user is not authenticated or the session expired, while `403` means the user is authenticated but not allowed to perform that action.',
+      '`400` usually means the request is malformed or invalid, while `409` means the request made sense but conflicts with current server state such as stale version or duplicate action.',
+      '`404` means the target is missing, while `500` means the server failed unexpectedly. From the UI perspective those should not collapse into the same generic message.',
+      'The senior point is to map each code to the right UX: refresh auth, show permissions, surface validation, recover from conflicts, or show a temporary server-failure state.'
+    ),
+    ['api', 'http', 'status-codes', 'auth', 'errors', 'frontend-fundamentals'],
+    'Collaborate closely with backend engineers to integrate REST and/or GraphQL APIs'
+  ),
+  makeCard(
+    'card-0106',
+    'Frontend tooling: Package management',
+    'Execution ownership',
+    'Comparison',
+    'package.json vs lockfile: what is the difference and why does it matter in CI?',
+    joinLines(
+      '`package.json` expresses project metadata, scripts, and version ranges the app says it can use.',
+      'The lockfile records the exact resolved dependency tree actually installed for this project at that time.',
+      'Lockfiles matter because they make installs deterministic across laptops and CI, which reduces dependency drift and surprise minor-version breakage.',
+      'CI should install from the lockfile and treat unexpected lockfile changes as intentional reviewable diffs, not background noise.',
+      'This ties directly to reproducible builds, more reliable debugging, and safer releases.'
+    ),
+    ['tooling', 'package-manager', 'packagejson', 'lockfile', 'ci', 'ci-cd'],
+    'Experience with CI/CD pipelines and source control tools such as Git'
+  ),
+  makeCard(
+    'card-0107',
+    'HTTP and APIs: Browser networking',
+    'LLD strength',
+    'Definition',
+    'What is CORS and why does the browser sometimes send a preflight request?',
+    joinLines(
+      'CORS is a browser security model that controls whether frontend code on one origin can read responses from another origin.',
+      'A preflight is an `OPTIONS` check the browser sends before certain cross-origin requests, usually when methods, headers, or credentials are not simple.',
+      'The important point is that CORS is enforced by the browser and configured by the server; it is not the same as backend auth.',
+      'From the frontend side, a CORS problem can look like a network failure even when the server is up, so I check origin, credentials mode, custom headers, and server allow rules together.'
+    ),
+    ['cors', 'preflight', 'browser', 'api', 'http', 'frontend-fundamentals'],
+    'Collaborate closely with backend engineers to integrate REST and/or GraphQL APIs'
   ),
 ]
 

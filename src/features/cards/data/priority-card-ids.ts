@@ -1,5 +1,6 @@
 export const priorityCardIds = [
   'card-0005',
+  'card-0006',
   'card-0008',
   'card-0016',
   'card-0021',
@@ -9,8 +10,11 @@ export const priorityCardIds = [
   'card-0036',
   'card-0075',
   'card-0076',
+  'card-0077',
   'card-0078',
-  'card-0079',
+  'card-0099',
+  'card-0102',
+  'card-0105',
 ] as const
 
 export function isPriorityCard(cardId: string) {

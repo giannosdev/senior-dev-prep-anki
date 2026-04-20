@@ -2,8 +2,10 @@ import { cards } from '../data/cards'
 import { allJdItems } from '../data/jd-items'
 import { priorityCardIds } from '../data/priority-card-ids'
 import {
+  normalizeCardFront,
   validateCards,
   validateJdCoverage,
+  validateNoNormalizedDuplicateFronts,
   validatePriorityCardIds,
 } from './card-validation'
 import type { Card } from '../../study/types'
@@ -47,5 +49,21 @@ describe('card validation', () => {
 
   it('ensures every JD item has at least one mapped card', () => {
     expect(() => validateJdCoverage(cards, allJdItems)).not.toThrow()
+  })
+
+  it('fails on normalized front duplicates', () => {
+    expect(() => validateNoNormalizedDuplicateFronts([
+      makeValidCard({ id: 'card-a', front: '401 vs 403: what matters?' }),
+      makeValidCard({ id: 'card-b', front: '401 vs 403 - what matters' }),
+    ])).toThrow('Potential duplicate card front: card-a | card-b')
+  })
+
+  it('normalizes card fronts consistently', () => {
+    expect(normalizeCardFront('localStorage vs sessionStorage vs cookies: when would you use each?'))
+      .toBe('localstorage vs sessionstorage vs cookies when would you use each')
+  })
+
+  it('ensures the deck has no normalized front duplicates', () => {
+    expect(() => validateNoNormalizedDuplicateFronts(cards)).not.toThrow()
   })
 })
